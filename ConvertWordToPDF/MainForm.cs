@@ -11,6 +11,11 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.XtraRichEdit;
 using DevExpress.XtraPrinting;
+using Microsoft.Office.Interop.Word;
+using DevExpress.XtraPrinting.Native;
+using static DevExpress.XtraPrinting.Native.ExportOptionsPropertiesNames;
+using Document = Microsoft.Office.Interop.Word.Document;
+using System.Reflection;
 
 namespace ConvertWordToPDF
 {
@@ -49,6 +54,9 @@ namespace ConvertWordToPDF
         {
             Cursor.Current = Cursors.WaitCursor;
 
+            Microsoft.Office.Interop.Word.Application word = new Microsoft.Office.Interop.Word.Application();
+            object oMissing = System.Reflection.Missing.Value;
+
             try
             {
                 for (int i = 0; i < dgvMain.Rows.Count; i++)
@@ -68,33 +76,44 @@ namespace ConvertWordToPDF
                         continue;
                     }
 
-                    using (RichEditDocumentServer wordProcessor = new RichEditDocumentServer())
-                    {
-                        wordProcessor.LoadDocument(path);
+                    object filename = path;
+                    Document doc = word.Documents.Open(ref filename, ref oMissing,
+                        ref oMissing, ref oMissing, ref oMissing, ref oMissing, ref oMissing,
+                        ref oMissing, ref oMissing, ref oMissing, ref oMissing, ref oMissing,
+                        ref oMissing, ref oMissing, ref oMissing, ref oMissing);
 
-                        PdfExportOptions options = new PdfExportOptions();
-                        options.Compressed = false;
-                        options.ImageQuality = PdfJpegImageQuality.Highest;
+                    doc.Activate();
 
-                        using (FileStream pdfFileStream = new FileStream(pdfPath, FileMode.Create))
-                        {
-                            wordProcessor.ExportToPdf(pdfFileStream, options);
-                        }
-                    }
+                    object outputFileName = pdfPath;
+                    object fileFormat = WdSaveFormat.wdFormatPDF;
+
+                    doc.SaveAs(ref outputFileName,
+                        ref fileFormat, ref oMissing, ref oMissing,
+                        ref oMissing, ref oMissing, ref oMissing, ref oMissing,
+                        ref oMissing, ref oMissing, ref oMissing, ref oMissing,
+                        ref oMissing, ref oMissing, ref oMissing, ref oMissing);
+
+                    object saveChanges = WdSaveOptions.wdDoNotSaveChanges;
+                    ((_Document)doc).Close(ref saveChanges, ref oMissing, ref oMissing);
+                    doc = null;
                 }
 
                 lbStatus.Text = "완료";
                 MessageBox.Show("변환 완료", "완료", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
-                Console.WriteLine(exception);
+                Debug.Print(ex.Message);
+                Debug.Assert(false);
                 lbStatus.Text = "오류";
                 throw;
             }
             finally
             {
                 Cursor.Current = Cursors.Default;
+
+                ((_Application)word).Quit(ref oMissing, ref oMissing, ref oMissing);
+                word = null;
             }
         }
 
