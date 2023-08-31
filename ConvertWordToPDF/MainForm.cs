@@ -9,13 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using DevExpress.XtraRichEdit;
-using DevExpress.XtraPrinting;
 using Microsoft.Office.Interop.Word;
-using DevExpress.XtraPrinting.Native;
-using static DevExpress.XtraPrinting.Native.ExportOptionsPropertiesNames;
 using Document = Microsoft.Office.Interop.Word.Document;
-using System.Reflection;
 
 namespace ConvertWordToPDF
 {
