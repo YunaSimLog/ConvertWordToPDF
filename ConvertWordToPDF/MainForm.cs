@@ -55,7 +55,7 @@ namespace ConvertWordToPDF
                 {
 
                     string name = dgvMain.Rows[i].Cells[(int)COL_IDX.NAME].Value.ToString();
-                    string path = dgvMain.Rows[i].Cells[(int) COL_IDX.PATH].Value.ToString();
+                    string path = dgvMain.Rows[i].Cells[(int)COL_IDX.PATH].Value.ToString();
                     if (path.Length == 0)
                         continue;
 
@@ -84,6 +84,7 @@ namespace ConvertWordToPDF
                 }
 
                 lbStatus.Text = "완료";
+                MessageBox.Show("변환 완료", "완료", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception exception)
             {
