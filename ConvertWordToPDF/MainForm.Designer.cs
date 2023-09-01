@@ -104,6 +104,7 @@
             this.btnDeleteAll.TabIndex = 3;
             this.btnDeleteAll.Text = "전체 삭제";
             this.btnDeleteAll.UseVisualStyleBackColor = true;
+            this.btnDeleteAll.Click += new System.EventHandler(this.btnDeleteAll_Click);
             // 
             // btnDelete
             // 
@@ -114,6 +115,7 @@
             this.btnDelete.TabIndex = 4;
             this.btnDelete.Text = "선택 삭제";
             this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnAddFile
             // 

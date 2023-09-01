@@ -162,5 +162,23 @@ namespace ConvertWordToPDF
 
             return true;
         }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            List<int> selLows = new List<int>();
+            foreach (DataGridViewRow row in dgvMain.SelectedRows)
+                selLows.Add(row.Index);
+
+            selLows.Sort();
+
+            for (int i = selLows.Count - 1; i >= 0; i--)
+                dgvMain.Rows.RemoveAt(selLows[i]);
+        }
+
+        private void btnDeleteAll_Click(object sender, EventArgs e)
+        {
+            dgvMain.Rows.Clear();
+            dgvMain.Refresh();
+        }
     }
 }
