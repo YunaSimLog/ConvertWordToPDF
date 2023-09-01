@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.btnClose = new System.Windows.Forms.Button();
             this.btnConvert = new System.Windows.Forms.Button();
             this.dgvMain = new System.Windows.Forms.DataGridView();
@@ -37,6 +38,7 @@
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnAddFile = new System.Windows.Forms.Button();
             this.lbStatus = new System.Windows.Forms.Label();
+            this.lbDesc = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMain)).BeginInit();
             this.SuspendLayout();
             // 
@@ -69,6 +71,7 @@
             this.dgvMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvMain.BackgroundColor = System.Drawing.Color.White;
             this.dgvMain.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvMain.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colName,
@@ -138,11 +141,22 @@
             this.lbStatus.TabIndex = 6;
             this.lbStatus.Text = "준비중..";
             // 
+            // lbDesc
+            // 
+            this.lbDesc.AutoSize = true;
+            this.lbDesc.Location = new System.Drawing.Point(12, 24);
+            this.lbDesc.Name = "lbDesc";
+            this.lbDesc.Size = new System.Drawing.Size(119, 12);
+            this.lbDesc.TabIndex = 7;
+            this.lbDesc.Text = "Create by Yuna Sim";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(242)))), ((int)(((byte)(242)))));
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.lbDesc);
             this.Controls.Add(this.lbStatus);
             this.Controls.Add(this.btnAddFile);
             this.Controls.Add(this.btnDelete);
@@ -150,7 +164,8 @@
             this.Controls.Add(this.dgvMain);
             this.Controls.Add(this.btnConvert);
             this.Controls.Add(this.btnClose);
-            this.MinimumSize = new System.Drawing.Size(480, 131);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(480, 151);
             this.Name = "MainForm";
             this.Text = "Word To PDF";
             ((System.ComponentModel.ISupportInitialize)(this.dgvMain)).EndInit();
@@ -170,6 +185,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colName;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPath;
         private System.Windows.Forms.Label lbStatus;
+        private System.Windows.Forms.Label lbDesc;
     }
 }
 
