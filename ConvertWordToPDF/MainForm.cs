@@ -31,7 +31,7 @@ namespace ConvertWordToPDF
         private void btnAddFile_Click(object sender, EventArgs e)
         {
             string[] filePaths = FileDialogFunc.MultiFileFunc("파일 추가", "", "Word 파일 (*.doc, *.docx) | *.doc; *.docx;");
-            if (filePaths.Length == 0)
+            if (filePaths == null || filePaths.Length == 0)
                 return;
 
             // 중복 경로 제거
