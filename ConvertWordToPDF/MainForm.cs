@@ -63,6 +63,7 @@ namespace ConvertWordToPDF
                         continue;
 
                     lbStatus.Text = string.Format($"작업중.. {name}");
+                    dgvMain.Rows[i].DefaultCellStyle.BackColor = Color.FromArgb(255, 227, 121);
 
                     string pdfPath = "";
                     if (!GetPDFFilePath(path, out pdfPath))
@@ -71,26 +72,38 @@ namespace ConvertWordToPDF
                         continue;
                     }
 
-                    object filename = path;
-                    Document doc = word.Documents.Open(ref filename, ref oMissing,
-                        ref oMissing, ref oMissing, ref oMissing, ref oMissing, ref oMissing,
-                        ref oMissing, ref oMissing, ref oMissing, ref oMissing, ref oMissing,
-                        ref oMissing, ref oMissing, ref oMissing, ref oMissing);
+                    try
+                    {
+                        object filename = path;
+                        Document doc = word.Documents.Open(ref filename, ref oMissing,
+                            ref oMissing, ref oMissing, ref oMissing, ref oMissing, ref oMissing,
+                            ref oMissing, ref oMissing, ref oMissing, ref oMissing, ref oMissing,
+                            ref oMissing, ref oMissing, ref oMissing, ref oMissing);
 
-                    doc.Activate();
+                        doc.Activate();
 
-                    object outputFileName = pdfPath;
-                    object fileFormat = WdSaveFormat.wdFormatPDF;
+                        object outputFileName = pdfPath;
+                        object fileFormat = WdSaveFormat.wdFormatPDF;
 
-                    doc.SaveAs(ref outputFileName,
-                        ref fileFormat, ref oMissing, ref oMissing,
-                        ref oMissing, ref oMissing, ref oMissing, ref oMissing,
-                        ref oMissing, ref oMissing, ref oMissing, ref oMissing,
-                        ref oMissing, ref oMissing, ref oMissing, ref oMissing);
+                        doc.SaveAs(ref outputFileName,
+                            ref fileFormat, ref oMissing, ref oMissing,
+                            ref oMissing, ref oMissing, ref oMissing, ref oMissing,
+                            ref oMissing, ref oMissing, ref oMissing, ref oMissing,
+                            ref oMissing, ref oMissing, ref oMissing, ref oMissing);
 
-                    object saveChanges = WdSaveOptions.wdDoNotSaveChanges;
-                    ((_Document)doc).Close(ref saveChanges, ref oMissing, ref oMissing);
-                    doc = null;
+                        object saveChanges = WdSaveOptions.wdDoNotSaveChanges;
+                        ((_Document)doc).Close(ref saveChanges, ref oMissing, ref oMissing);
+                        doc = null;
+                    }
+                    catch (Exception ex)
+                    {
+                        dgvMain.Rows[i].DefaultCellStyle.BackColor = Color.FromArgb(229, 37, 53);
+                        lbStatus.Text = "오류";
+                        Debug.Print(ex.Message);
+                        Debug.Assert(false);
+                    }
+
+                    dgvMain.Rows[i].DefaultCellStyle.BackColor = Color.FromArgb(69, 196, 176);
                 }
 
                 lbStatus.Text = "완료";
@@ -99,8 +112,6 @@ namespace ConvertWordToPDF
             catch (Exception ex)
             {
                 Debug.Print(ex.Message);
-                Debug.Assert(false);
-                lbStatus.Text = "오류";
                 throw;
             }
             finally
