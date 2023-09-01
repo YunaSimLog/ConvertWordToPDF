@@ -146,9 +146,9 @@
             this.lbDesc.AutoSize = true;
             this.lbDesc.Location = new System.Drawing.Point(12, 24);
             this.lbDesc.Name = "lbDesc";
-            this.lbDesc.Size = new System.Drawing.Size(119, 12);
+            this.lbDesc.Size = new System.Drawing.Size(254, 12);
             this.lbDesc.TabIndex = 7;
-            this.lbDesc.Text = "Create by Yuna Sim";
+            this.lbDesc.Text = "Create by Yuna Sim (s921119@hanmail.net)";
             // 
             // MainForm
             // 
