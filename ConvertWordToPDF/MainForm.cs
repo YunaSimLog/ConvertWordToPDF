@@ -123,36 +123,6 @@ namespace ConvertWordToPDF
             }
         }
 
-        private void ExistFileList(ref string[] filePaths)
-        {
-            try
-            {
-                List<string> tmpPathList = filePaths.ToList();
-                List<int> existInd = new List<int>();
-                for (int i = 0; i < dgvMain.Rows.Count; i++)
-                {
-                    string path = dgvMain.Rows[i].Cells[(int)COL_IDX.PATH].Value.ToString();
-                    if (path.Length == 0)
-                        continue;
-
-                    if (tmpPathList.Any(c => string.Compare(path, c, true) == 0))
-                        existInd.Add(tmpPathList.FindLastIndex(c => string.Compare(path, c, true) == 0));
-                }
-
-                existInd.Sort();
-
-                for (int i = existInd.Count - 1; i >= 0; i--)
-                    tmpPathList.RemoveAt(existInd[i]);
-
-                filePaths = tmpPathList.ToArray();
-            }
-            catch (Exception ex)
-            {
-                Debug.Print(ex.Message);
-                Debug.Assert(false);
-            }
-        }
-
         private bool GetPDFFilePath(string wordpath, out string pdfpath)
         {
             pdfpath = "";
@@ -190,6 +160,83 @@ namespace ConvertWordToPDF
         {
             dgvMain.Rows.Clear();
             dgvMain.Refresh();
+        }
+
+        private void dgvMain_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] filePaths = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (filePaths.Length < 1)
+                return;
+
+            // Doc 문서 추리기
+            OnlyDocFiles(ref filePaths);
+
+            // 중복 경로 제거
+            ExistFileList(ref filePaths);
+
+            for (int i = 0; i < filePaths.Length; i++)
+            {
+                string path = filePaths[i];
+                string name = Path.GetFileName(path);
+                dgvMain.Rows.Add(new string[] { name, path });
+            }
+        }
+
+        private void dgvMain_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+        }
+
+        private void ExistFileList(ref string[] filePaths)
+        {
+            try
+            {
+                List<string> tmpPathList = filePaths.ToList();
+                List<int> existInd = new List<int>();
+                for (int i = 0; i < dgvMain.Rows.Count; i++)
+                {
+                    string path = dgvMain.Rows[i].Cells[(int)COL_IDX.PATH].Value.ToString();
+                    if (path.Length == 0)
+                        continue;
+
+                    if (tmpPathList.Any(c => string.Compare(path, c, true) == 0))
+                        existInd.Add(tmpPathList.FindLastIndex(c => string.Compare(path, c, true) == 0));
+                }
+
+                existInd.Sort();
+
+                for (int i = existInd.Count - 1; i >= 0; i--)
+                    tmpPathList.RemoveAt(existInd[i]);
+
+                filePaths = tmpPathList.ToArray();
+            }
+            catch (Exception ex)
+            {
+                Debug.Print(ex.Message);
+                Debug.Assert(false);
+            }
+        }
+
+        private void OnlyDocFiles(ref string[] filePaths)
+        {
+            List<string> tmpPathList = new List<string>();
+
+            for (int i = 0; i < filePaths.Length; i++)
+            {
+                string path = filePaths[i];
+                string extension = Path.GetExtension(path);
+
+                // word문서 아닐 경우 예외처리
+                if (string.Compare(extension, ".doc", true) != 0 && string.Compare(extension, ".docx", true) != 0)
+                    continue;
+
+                tmpPathList.Add(path);
+            }
+
+            filePaths = tmpPathList.ToArray();
         }
     }
 }

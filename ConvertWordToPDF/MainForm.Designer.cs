@@ -67,6 +67,7 @@
             // 
             // dgvMain
             // 
+            this.dgvMain.AllowDrop = true;
             this.dgvMain.AllowUserToAddRows = false;
             this.dgvMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
@@ -82,6 +83,8 @@
             this.dgvMain.RowTemplate.Height = 23;
             this.dgvMain.Size = new System.Drawing.Size(776, 338);
             this.dgvMain.TabIndex = 2;
+            this.dgvMain.DragDrop += new System.Windows.Forms.DragEventHandler(this.dgvMain_DragDrop);
+            this.dgvMain.DragEnter += new System.Windows.Forms.DragEventHandler(this.dgvMain_DragEnter);
             // 
             // colName
             // 
